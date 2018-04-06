@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+    <title>Babylon - Getting Started</title>
+    <!--- link to the last version of babylon --->
+    <script src="babylon.js"></script>
+    <script src="babylon.glTFFileLoader.js"></script>
+    <script src="babylon.inspector.bundle.js"></script>
+    <style>
+        html, body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            // get the canvas DOM element
+            var canvas = document.getElementById('renderCanvas');
+
+            // load the 3D engine
+            var engine = new BABYLON.Engine(canvas, true);
+
+            // createScene function that creates and return the scene
+            var createScene = function () {
+                // create a basic BJS Scene object
+                var scene = new BABYLON.Scene(engine);
+
+                // create a FreeCamera, and set its position to (x:0, y:5, z:-10)
+                var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(0, 5, -10), scene);
+
+                // Async call
+                BABYLON.SceneLoader.Append("scenes/sponza/",
+                    "sponza.babylon", scene, function () {
+                        var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+
+                        // Create Logo plane
+                        var planeLogo = BABYLON.Mesh.CreatePlane("Logo", 1.0, scene);
+                        var planMaterialLogo = new BABYLON.StandardMaterial("LogoTexture", scene);
+                        planMaterialLogo.diffuseTexture = new BABYLON.Texture("images/Product-logo.jpg", scene);
+                        planMaterialLogo.backFaceCulling = false;
+                        planeLogo.material = planMaterialLogo;
+                        planeLogo.position.x = -7;
+                        planeLogo.position.y = 4;
+                        planeLogo.position.z = 0.4;
+                        planeLogo.rotation.y = Math.PI / 2;
+
+                        var musicWelcome = new BABYLON.Sound("Welcome", "sounds/Welcome.wav", scene);
+                        musicWelcome.attachToMesh(planeLogo);
+                        planeLogo.actionManager = new BABYLON.ActionManager(scene);
+                        planeLogo.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickDownTrigger, function (ev) {
+                            if (musicWelcome.isPlaying) {
+                                musicWelcome.stop();
+                            }
+                            else {
+                                musicWelcome.play();
+                            }
+                        }));
+
+
+                        // Create Menu plane
+                        var planeMenu = BABYLON.Mesh.CreatePlane("Menu", 1.0, scene);
+                        var planMaterialMenu = new BABYLON.StandardMaterial("MenuTexture", scene);
+                        planMaterialMenu.diffuseTexture = new BABYLON.Texture("images/back.jpg", scene);
+                        planMaterialMenu.backFaceCulling = false;
+                        planeMenu.material = planMaterialMenu;
+                        planeMenu.position.x = 8;
+                        planeMenu.position.y = 2;
+                        planeMenu.position.z = 0.4;
+                        planeMenu.rotation.y = Math.PI / 2;
+
+                        // Create plane for Catholic image
+                        var planeCatholic = BABYLON.Mesh.CreatePlane("Catholic", 2.0, scene);
+                        var planMaterialCatholic = new BABYLON.StandardMaterial("CatholicTexture", scene);
+                        planMaterialCatholic.diffuseTexture = new BABYLON.Texture("images/catholic-symbols.png", scene);
+                        planMaterialCatholic.backFaceCulling = false;
+                        planeCatholic.material = planMaterialCatholic;
+                        planeCatholic.position.x = -8;
+                        planeCatholic.position.y = 2;
+                        planeCatholic.position.z = 2;
+
+                        // Create plane for Buddism image
+                        var planeBuddism = BABYLON.Mesh.CreatePlane("Buddism", 2.0, scene);
+                        var planMaterialBuddism = new BABYLON.StandardMaterial("BuddismTexture", scene);
+                        planMaterialBuddism.diffuseTexture = new BABYLON.Texture("images/buddhist-symbols.png", scene);
+                        planMaterialBuddism.backFaceCulling = false;
+                        planeBuddism.material = planMaterialBuddism;
+                        planeBuddism.position.x = -4;
+                        planeBuddism.position.y = 2;
+                        planeBuddism.position.z = 2;
+
+                        // Create plane for Hindu image
+                        var planeHindu = BABYLON.Mesh.CreatePlane("Hindu", 2.0, scene);
+                        var planMaterialHindu = new BABYLON.StandardMaterial("HinduTexture", scene);
+                        planMaterialHindu.diffuseTexture = new BABYLON.Texture("images/hindu-symbols.png", scene);
+                        planMaterialHindu.backFaceCulling = false;
+                        planeHindu.material = planMaterialHindu;
+                        planeHindu.position.x = -0.5;
+                        planeHindu.position.y = 2;
+                        planeHindu.position.z = 2;
+
+                        // Create plane for Islam image
+                        var planeIslam = BABYLON.Mesh.CreatePlane("Islam", 2.0, scene);
+                        var planMaterialIslam = new BABYLON.StandardMaterial("IslamTexture", scene);
+                        planMaterialIslam.diffuseTexture = new BABYLON.Texture("images/islam-symbols.png", scene);
+                        planMaterialIslam.backFaceCulling = false;
+                        planeIslam.material = planMaterialIslam;
+                        planeIslam.position.x = -8;
+                        planeIslam.position.y = 2;
+                        planeIslam.position.z = -1.5;
+
+                        // Create plane for Taoism image
+                        var planeTaoism = BABYLON.Mesh.CreatePlane("Taoism", 2.0, scene);
+                        var planMaterialTaoism = new BABYLON.StandardMaterial("TaoismTexture", scene);
+                        planMaterialTaoism.diffuseTexture = new BABYLON.Texture("images/taoist-symbols.png", scene);
+                        planMaterialTaoism.backFaceCulling = false;
+                        planeTaoism.material = planMaterialTaoism;
+                        planeTaoism.position.x = -4;
+                        planeTaoism.position.y = 2;
+                        planeTaoism.position.z = -1.5;
+
+                        // Create plane for Judaism image
+                        var planeJudaism = BABYLON.Mesh.CreatePlane("Judaism", 2.0, scene);
+                        var planMaterialJudaism = new BABYLON.StandardMaterial("JudaismTexture", scene);
+                        planMaterialJudaism.diffuseTexture = new BABYLON.Texture("images/judaic-symbols.png", scene);
+                        planMaterialJudaism.backFaceCulling = false;
+                        planeJudaism.material = planMaterialJudaism;
+                        planeJudaism.position.x = -0.5;
+                        planeJudaism.position.y = 2;
+                        planeJudaism.position.z = -1.5;
+
+                        /* Actions for each religous symbol*/
+                        planeCatholic.actionManager = new BABYLON.ActionManager(scene);
+                        planeCatholic.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickDownTrigger, function (ev) {
+                            BABYLON.SceneLoader.ImportMesh("", "scenes/catholic_statue/", "scene.gltf", scene, function (newMeshes) {
+                                newMeshes[0].scaling.x = 0.02;
+                                newMeshes[0].scaling.y = 0.02;
+                                newMeshes[0].scaling.z = 0.02;
+                                newMeshes[0].position.x = -9;
+                                newMeshes[0].position.y = 0;
+                                newMeshes[0].position.z = 0.5;
+                                newMeshes[0].rotation.y = -Math.PI/2;
+                            });
+
+                            planeCatholic.setEnabled(false);
+                            planeBuddism.setEnabled(false);
+                            planeHindu.setEnabled(false);
+                            planeIslam.setEnabled(false);
+                            planeTaoism.setEnabled(false);
+                            planeJudaism.setEnabled(false);
+
+                            // Create plane for The Last Supper image
+                            var planeSupper = BABYLON.MeshBuilder.CreatePlane("Supper", { width: 3.0, height: 1.5 }, scene);
+                            var planMaterialSupper = new BABYLON.StandardMaterial("SupperTexture", scene);
+                            planMaterialSupper.diffuseTexture = new BABYLON.Texture("images/Church Paintings/The-Last-Supper.jpg", scene);
+                            planMaterialSupper.backFaceCulling = false;
+                            planeSupper.material = planMaterialSupper;
+                            planeSupper.position.x = -7;
+                            planeSupper.position.y = 2;
+                            planeSupper.position.z = -1.5;
+
+                            // Load the sound and play it automatically once ready
+                            var musicSupper = new BABYLON.Sound("The_Last_Supper", "sounds/The_Last_Supper.wav", scene, null, { maxDistance: 12 });
+                            musicSupper.attachToMesh(planeSupper);
+                            planeSupper.actionManager = new BABYLON.ActionManager(scene);
+                            planeSupper.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickDownTrigger, function (ev) {
+                                if (musicSupper.isPlaying) {
+                                    musicSupper.stop();
+                                }
+                                else {
+                                    console.log("plays super")
+                                    musicSupper.play();
+                                }
+                            }));
+
+                            // Create plane for adorationOfSheperd.jpg image
+                            var planeadorationOfSheperd = BABYLON.MeshBuilder.CreatePlane("adorationOfSheperd", { width: 3.0, height: 1.5 }, scene);
+                            var planMaterialadorationOfSheperd = new BABYLON.StandardMaterial("adorationOfSheperdTexture", scene);
+                            planMaterialadorationOfSheperd.diffuseTexture = new BABYLON.Texture("images/Church Paintings/adorationOfSheperd.jpg", scene);
+                            planMaterialadorationOfSheperd.backFaceCulling = false;
+                            planeadorationOfSheperd.material = planMaterialadorationOfSheperd;
+                            planeadorationOfSheperd.position.x = -2;
+                            planeadorationOfSheperd.position.y = 2;
+                            planeadorationOfSheperd.position.z = -1.5;
+
+                            // Create plane for Cristo-Crucificado.jpg image
+                            var planeCristo = BABYLON.MeshBuilder.CreatePlane("Cristo", { width: 3.0, height: 1.5 }, scene);
+                            var planMaterialCristo = new BABYLON.StandardMaterial("CristoTexture", scene);
+                            planMaterialCristo.diffuseTexture = new BABYLON.Texture("images/Church Paintings/Cristo-Crucificado.jpg", scene);
+                            planMaterialCristo.backFaceCulling = false;
+                            planeCristo.material = planMaterialCristo;
+                            planeCristo.position.x = 2;
+                            planeCristo.position.y = 2;
+                            planeCristo.position.z = -1.5;
+
+                            // Create plane for Descendimiento.jpg image
+                            var planeDescendimiento = BABYLON.MeshBuilder.CreatePlane("Descendimiento", { width: 3.0, height: 1.5 }, scene);
+                            var planMaterialDescendimiento = new BABYLON.StandardMaterial("DescendimientoTexture", scene);
+                            planMaterialDescendimiento.diffuseTexture = new BABYLON.Texture("images/Church Paintings/descendimiento.jpg", scene);
+                            planMaterialDescendimiento.backFaceCulling = false;
+                            planeDescendimiento.material = planMaterialDescendimiento;
+                            planeDescendimiento.position.x = -7;
+                            planeDescendimiento.position.y = 2;
+                            planeDescendimiento.position.z = 1.5;
+
+                            // Create plane for Saint_Peter_in_Tears.jpg image
+                            var planeSt = BABYLON.MeshBuilder.CreatePlane("st", { width: 3.0, height: 1.5 }, scene);
+                            var planMaterialSt = new BABYLON.StandardMaterial("stTexture", scene);
+                            planMaterialSt.diffuseTexture = new BABYLON.Texture("images/Church Paintings/Saint_Peter_in_Tears.jpg", scene);
+                            planMaterialSt.backFaceCulling = false;
+                            planeSt.material = planMaterialSt;
+                            planeSt.position.x = -2;
+                            planeSt.position.y = 2;
+                            planeSt.position.z = 1.5;
+
+                            // Create plane for The Immaculate Conception.jpg image
+                            var planeImmaculate = BABYLON.MeshBuilder.CreatePlane("Immaculate", { width: 3.0, height: 1.5 }, scene);
+                            var planMaterialImmaculate = new BABYLON.StandardMaterial("ImmaculateTexture", scene);
+                            planMaterialImmaculate.diffuseTexture = new BABYLON.Texture("images/Church Paintings/The-Immaculate-Conception.jpg", scene);
+                            planMaterialImmaculate.backFaceCulling = false;
+                            planeImmaculate.material = planMaterialImmaculate;
+                            planeImmaculate.position.x = 2;
+                            planeImmaculate.position.y = 2;
+                            planeImmaculate.position.z = 1.5;
+
+                        }));
+
+                        planeIslam.actionManager = new BABYLON.ActionManager(scene);
+                        planeIslam.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickDownTrigger, function (ev) {
+                            planeCatholic.setEnabled(false);
+                            planeBuddism.setEnabled(false);
+                            planeHindu.setEnabled(false);
+                            planeIslam.setEnabled(false);
+                            planeTaoism.setEnabled(false);
+                            planeJudaism.setEnabled(false);
+
+                            var planeVideo = BABYLON.MeshBuilder.CreatePlane("Video", { width: 4.0, height: 2.0 }, scene);
+                            planeVideo.backFaceCulling = true;
+                            planeVideo.position.x = -8;
+                            planeVideo.position.y = 2;
+                            planeVideo.position.z = 0.4;
+                            planeVideo.rotation.y = -Math.PI / 2
+
+                            var mat = new BABYLON.StandardMaterial("mat", scene);
+
+                            var videoTexture = new BABYLON.VideoTexture("video", ["videos/WhatisIslam.mp4"], scene, true, false);
+                            mat.diffuseTexture = videoTexture;
+                            planeVideo.material = mat;
+                            scene.onPointerUp = function () {
+                                videoTexture.video.play();
+                            };
+
+                            // Create plane for Abdelkader image
+                            var planeAbdelkader = BABYLON.MeshBuilder.CreatePlane("Abdelkade", { width: 3.0, height: 1.5 }, scene);
+                            var planMaterialAbdelkader = new BABYLON.StandardMaterial("AbdelkadeTexture", scene);
+                            planMaterialAbdelkader.diffuseTexture = new BABYLON.Texture("images/Abdelkader.jpg", scene);
+                            planMaterialAbdelkader.backFaceCulling = false;
+                            planeAbdelkader.material = planMaterialAbdelkader;
+                            planeAbdelkader.position.x = 5;
+                            planeAbdelkader.position.y = 2;
+                            planeAbdelkader.position.z = 0.4;
+                            planeAbdelkader.rotation.y= Math.PI/2;
+
+                            // Load the sound and play it automatically once ready
+                            var musicAbdelkader = new BABYLON.Sound("Abdelkader", "sounds/Abdelkader.wav", scene, null, { maxDistance: 7 });
+                            musicAbdelkader.attachToMesh(planeAbdelkader);
+                            planeAbdelkader.actionManager = new BABYLON.ActionManager(scene);
+                            planeAbdelkader.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickDownTrigger, function (ev) {
+                                if (musicAbdelkader.isPlaying) {
+                                    musicAbdelkader.stop();
+                                }
+                                else {
+                                    musicAbdelkader.play();
+                                }
+                            }));
+
+                        }));
+
+                        /*planeSupper.attachToMesh(planeCatholic);
+                            planeadorationOfSheperd.attachToMesh(planeCatholic);
+                            planeDescendimiento.attachToMesh(planeCatholic);
+                            planeSt.attachToMesh(planeCatholic);
+                            planeImmaculate.attachToMesh(planeCatholic);
+                            planeCristo.attachToMesh(planeCatholic);*/
+
+                        // Back to main hall
+                        /*planeMenu.actionManager = new BABYLON.ActionManager(scene);
+                        planeMenu.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickDownTrigger, function (ev) {
+                            planeSupper.setEnabled(false);;
+                            planeadorationOfSheperd.setEnabled(false);
+                            planeAbdelkader.setEnabled(false);
+                            planeSt.setEnabled(false);
+                            planeCristo.setEnabled(false);
+                            planeVideo.setEnabled(false);
+                            planeImmaculate.setEnabled(false);
+                            planeDescendimiento.setEnabled(false);
+
+                            planeCatholic.setEnabled(true);
+                            planeBuddism.setEnabled(true);
+                            planeHindu.setEnabled(true);
+                            planeIslam.setEnabled(true);
+                            planeTaoism.setEnabled(true);
+                            planeJudaism.setEnabled(true);
+                            planeLogo.setEnabled(true);
+                        }));*/
+
+                        // Initialize VR
+                        var VRHelper = scene.createDefaultVRExperience();
+                        // Interation and teleportation
+                        VRHelper.enableTeleportation({ floorMeshName: "Sponza Floor" });
+
+                        scene.debugLayer.show();
+                    });
+                // return the created scene
+                return scene;
+            }
+
+            // call the createScene function
+            var scene = createScene();
+
+            // run the render loop
+            engine.runRenderLoop(function () {
+                scene.render();
+            });
+
+            // the canvas/window resize event handler
+            window.addEventListener('resize', function () {
+                engine.resize();
+            });
+        });
+    </script>
+</body>
+</html>
